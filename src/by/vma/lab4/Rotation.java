@@ -36,11 +36,15 @@ public class Rotation {
         double sin;
         double prevAij;
         double prevFi;
+        double denom;
         for(int i = 0; i < n - 1; i++) {
             for (int k = i + 1; k < n; k++) {
-                cos = a.matrix[i][i] / Math.sqrt(Math.pow(a.matrix[i][i], 2) + Math.pow(a.matrix[k][i], 2));
-                sin = -a.matrix[k][i] / Math.sqrt(Math.pow(a.matrix[i][i], 2) + Math.pow(a.matrix[k][i], 2));
-                for (int j = i; j < n; j++) {
+                denom = Math.sqrt(Math.pow(a.matrix[i][i], 2) + Math.pow(a.matrix[k][i], 2));
+                cos = a.matrix[i][i] / denom;
+                sin = -a.matrix[k][i] / denom;
+                a.matrix[i][i] = denom;
+                a.matrix[k][i] = 0;
+                for (int j = i + 1; j < n; j++) {
                     prevAij = a.matrix[i][j];
                     a.matrix[i][j] = prevAij * cos - a.matrix[k][j] * sin;
                     a.matrix[k][j] = prevAij * sin + a.matrix[k][j] * cos;
@@ -55,6 +59,7 @@ public class Rotation {
             for (int j = i + 1; j < n; j++) {
                 result.vector[i] -= a.matrix[i][j] * result.vector[j];
             }
+            result.vector[i] /= a.matrix[i][i];
         }
         return result;
     }
