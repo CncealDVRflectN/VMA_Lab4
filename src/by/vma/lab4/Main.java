@@ -108,6 +108,8 @@ public class Main {
             a.fillDefault();
             b.fillDefault();
             x = rotationMethod();
+            a.fillDefault();
+            b.fillDefault();
             r = a.mul(x).subtract(b);
             System.out.println("Вектор X:");
             x.print(false);
@@ -127,7 +129,7 @@ public class Main {
         double cos;
         double sin;
         double prevAij;
-        double prevFi;
+        double prevBi;
         double denom;
         for(int i = 0; i < n - 1; i++) {
             for (int k = i + 1; k < n; k++) {
@@ -141,9 +143,9 @@ public class Main {
                     a.matrix[i][j] = prevAij * cos - a.matrix[k][j] * sin;
                     a.matrix[k][j] = prevAij * sin + a.matrix[k][j] * cos;
                 }
-                prevFi = b.vector[i];
-                b.vector[i] = prevFi * cos - b.vector[k] * sin;
-                b.vector[k] = prevFi * sin + b.vector[k] * cos;
+                prevBi = b.vector[i];
+                b.vector[i] = prevBi * cos - b.vector[k] * sin;
+                b.vector[k] = prevBi * sin + b.vector[k] * cos;
             }
         }
         for (int i = n - 1; i >= 0; i--) {
